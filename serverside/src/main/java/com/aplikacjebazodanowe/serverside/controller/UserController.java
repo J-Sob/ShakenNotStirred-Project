@@ -38,6 +38,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getUserByEmail/{email}")
+    public ResponseEntity<List<User>> getUserByEmail(@PathVariable String email){
+        try{
+            List<User> users = userService.getUserByEmail(email);
+            return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        } catch(NoSuchElementException e){
+            return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @DeleteMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable Integer id){
         userService.deleteUser(id);

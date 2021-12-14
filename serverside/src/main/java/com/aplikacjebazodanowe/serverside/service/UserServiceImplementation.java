@@ -32,4 +32,11 @@ public class UserServiceImplementation implements UserService{
     public User getUserByID(Integer id) {
         return userRepository.findById(id).get();
     }
+
+    @Override
+    public List<User> getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
+
+
 }
