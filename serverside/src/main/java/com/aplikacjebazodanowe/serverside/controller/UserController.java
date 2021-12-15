@@ -27,7 +27,7 @@ public class UserController {
         String emailRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(emailRegex);
         if(!pattern.matcher(user.getEmail()).matches()){
-            return new ResponseEntity<String>("Invalid email", HttpStatus.CONFLICT);
+            return new ResponseEntity<String>("Invalid email", HttpStatus.NOT_ACCEPTABLE);
         }
         if(!dbList.isEmpty()){
             return new ResponseEntity<String>("Email already in use", HttpStatus.CONFLICT);

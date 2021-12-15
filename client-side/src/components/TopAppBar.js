@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,21 +10,18 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from './img/logo.png'
 
-const pages = [{label: "Homepage", route: "/homepage"},
+const TopAppBar = () => {
+  const pages = [{label: "Homepage", route: "/homepage"},
                 {label: "Cocktails", route: "/"},
                 {label: "Categories", route: "/"}];
-const settingsLoggedIn = ['Profile', 'Logout'];
-const settingsLoggedOut = [{label: 'Sign up', route: '/signup'},
-                            {label: 'Log in', route: '/login'}];
 
-const TopAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const[settings, setSettings] = useState([])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,6 +38,20 @@ const TopAppBar = () => {
     setAnchorElUser(null);
   };
 
+  useEffect(() => {
+    const loggedUser = JSON.parse(localStorage.getItem('user'));
+    if(loggedUser){
+      setSettings([{label: 'Profile', route: '/profile'},
+                  {label: 'Log out', route: '/logout'}])
+      if(loggedUser.type === 'admin'){
+        setSettings(arr => [...arr, {label: 'Admin Panel', route:'/admin'}])
+      }
+    }else{
+      setSettings([{label: 'Sign up', route: '/signup'},
+                  {label: 'Log in', route: '/login'}])
+    }
+  }, [])
+
   return (
     <AppBar position="static" style={{background: '#85F5E9'}}>
       <Container maxWidth="xl">
@@ -53,7 +65,7 @@ const TopAppBar = () => {
             <img src={logo} alt="Shaken, not Stirred" height={100} width={100}/>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -127,7 +139,7 @@ const TopAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settingsLoggedOut.map((setting) => (
+              {settings.map((setting) => (
                 <MenuItem component={Link} to={setting.route} key={setting.label} onClick={handleCloseNavMenu}>
                   {setting.label}
                 </MenuItem>

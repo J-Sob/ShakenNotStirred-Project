@@ -5,7 +5,8 @@ import TextField from '@mui/material/TextField';
 import {Container, Paper, Button} from '@mui/material';
 import axios from 'axios';
 import TopAppBar from './TopAppBar';
-import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import { Link, Navigate } from 'react-router-dom';
 
 const SignUp = () => {
     const paperStyle = {
@@ -17,6 +18,9 @@ const SignUp = () => {
     const[name, setName] = useState('')
     const[password, setPassword] = useState('')
     const[confirmPassword, setConfirmPassword] = useState('')
+    const[redirectFlag, setRedirectFlag] = useState(false)
+    const[errorMessage, setErrorMessage] = useState('')
+    const[errorFlag, setErrorFlag] = useState(false)
 
     const handleOnClick = (e) => {
         e.preventDefault()
@@ -26,16 +30,18 @@ const SignUp = () => {
             password,
             type: "user"
         }
-
+        setErrorFlag(false)
         if(confirmPassword !== user.password){
-            console.log("Passwords don't match")
+            setErrorFlag(true)
+            setErrorMessage("Passwords don't match")
         }else{
             axios.post("http://localhost:8080/user/addUser", user)
             .then(response => {
-                console.log(response.data)
+                setRedirectFlag(true)
             })
             .catch(error =>{
-                console.log(error.response.data)
+                setErrorFlag(true)
+                setErrorMessage(error.response.data)
             })        
         }
     }
@@ -51,7 +57,7 @@ return(
                     <Box
                      component="form"
                      sx={{
-                         '& > :not(style)': { m: 1, width: '40ch' },
+                         '& > :not(style)': { m: 'auto', mt: 1, width: '40ch' },
                      }}
                      noValidate
                      autoComplete="off"
@@ -76,6 +82,7 @@ return(
                             onChange = {(e) => {
                                 setConfirmPassword(e.target.value)
                             }}/><br/>
+                        {errorFlag ? <Typography color="red">{errorMessage}</Typography> : ''}
                         <Button variant="outlined" color="success" onClick = {handleOnClick}>Sign up</Button><br/>
                         Already have an account? <Link to="/LogIn">Sign in!</Link>
 
@@ -83,6 +90,7 @@ return(
                 </form>
             </Paper>
         </Container>
+        {redirectFlag ? <Navigate to="/login"/> : "" }
     </div>
     );
 }
