@@ -13,7 +13,6 @@ const LogIn = () => {
         padding:"50px 20px",
         width: 600,
         margin: "20px auto",
-        justifyContent: "center"
     }
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')

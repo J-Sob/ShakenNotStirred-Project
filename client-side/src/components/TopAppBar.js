@@ -65,7 +65,7 @@ const TopAppBar = () => {
             <img src={logo} alt="Shaken, not Stirred" height={100} width={100}/>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}} style={{color: 'black'}}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -109,7 +109,7 @@ const TopAppBar = () => {
           >
             <img src={logo} alt="Shaken, not Stirred" height={100} width={100}/>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, color: 'black' }} >
           {pages.map((page) => (
                 <MenuItem component={Link} to={page.route} key={page.label} onClick={handleCloseNavMenu}>
                   {page.label}
