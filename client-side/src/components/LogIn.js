@@ -22,15 +22,20 @@ const LogIn = () => {
             email,
             password
         }
-        axios.get("http://localhost:8080/user/getUserByEmail/" + user.email)
+        axios.post("http://localhost:8080/user/loginAuth", user)
         .then(response => {
-            if(response.data.length === 0){
-                console.log("Theres no account with that email")
-            }
-            else if(response.data[0].password !== user.password){
-                console.log("Incorrect password")
+            console.log(response.data)
+        })
+        .catch(error =>{
+            const errorCode = error.response.request.status
+            if(errorCode === 404){
+                console.log("There's no user registered on this email")
+            }else if (errorCode === 409){
+                console.log("Wrong password")
+            }else if (errorCode === 406){
+                console.log("Invalid email")
             }else{
-                console.log("Succesfully logged in: " + response.data[0].name) 
+                console.log("Unknown error: " + errorCode)
             }
         })
     }

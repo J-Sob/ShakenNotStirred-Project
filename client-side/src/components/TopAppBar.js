@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,9 +14,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from './img/logo.png'
 
-const pages = ['Homepage', 'Cocktails', 'Categories'];
-const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const settingsLoggedOut = ['Log in', 'Sign up'];
+const pages = [{label: "Homepage", route: "/homepage"},
+                {label: "Cocktails", route: "/"},
+                {label: "Categories", route: "/"}];
+const settingsLoggedIn = ['Profile', 'Logout'];
+const settingsLoggedOut = [{label: 'Sign up', route: '/signup'},
+                            {label: 'Log in', route: '/login'}];
 
 const TopAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -79,8 +83,8 @@ const TopAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" color="textPrimary">{page}</Typography>
+                <MenuItem component={Link} to={page.route} key={page.label} onClick={handleCloseNavMenu}>
+                  {page.label}
                 </MenuItem>
               ))}
             </Menu>
@@ -94,15 +98,11 @@ const TopAppBar = () => {
             <img src={logo} alt="Shaken, not Stirred" height={100} width={100}/>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+          {pages.map((page) => (
+                <MenuItem component={Link} to={page.route} key={page.label} onClick={handleCloseNavMenu}>
+                  {page.label}
+                </MenuItem>
+              ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -128,8 +128,8 @@ const TopAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settingsLoggedOut.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem component={Link} to={setting.route} key={setting.label} onClick={handleCloseNavMenu}>
+                  {setting.label}
                 </MenuItem>
               ))}
             </Menu>

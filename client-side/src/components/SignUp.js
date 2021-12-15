@@ -26,26 +26,23 @@ const SignUp = () => {
             password,
             type: "user"
         }
-        console.log(user)
-        axios.get("http://localhost:8080/user/getUserByEmail/" + user.email)
-        .then(response => {
-            if(response.data.length !== 0){
-                console.log("Email already taken")
-            }
-            else if(confirmPassword !== user.password){
-                console.log("Passwords don't match")
-            }else{
-                 axios.post("http://localhost:8080/user/addUser", user)
-                 .then(response => {
-                     console.log(response.data)
-                 })
-            }
-        })
+
+        if(confirmPassword !== user.password){
+            console.log("Passwords don't match")
+        }else{
+            axios.post("http://localhost:8080/user/addUser", user)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error =>{
+                console.log(error.response.data)
+            })        
+        }
     }
 
 
 return(
-    <div classname="LogIn">
+    <div classname="SignUp">
         <TopAppBar/>
         <Container>
             <Paper elevation={3} style={paperStyle}>
