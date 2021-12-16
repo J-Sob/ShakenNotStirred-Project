@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
@@ -21,33 +20,34 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/addUser")
     public ResponseEntity<String> addUser(@RequestBody User user){
         List<User> dbList = userService.getUserByEmail(user.getEmail());
         String emailRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(emailRegex);
         if(!pattern.matcher(user.getEmail()).matches()){
-            return new ResponseEntity<String>("Invalid email", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Invalid email", HttpStatus.NOT_ACCEPTABLE);
         }
         if(!dbList.isEmpty()){
-            return new ResponseEntity<String>("Email already in use", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Email already in use", HttpStatus.CONFLICT);
         }else{
             userService.addUser(user);
-            return new ResponseEntity<String>("User created", HttpStatus.OK);
+            return new ResponseEntity<>("User created", HttpStatus.OK);
         }
     }
 
     @PostMapping("/loginAuth")
     public ResponseEntity<User> loginAuth(@RequestBody User user){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         List<User> dbList = userService.getUserByEmail(user.getEmail());
         String emailRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(emailRegex);
         if(!pattern.matcher(user.getEmail()).matches()){
-            return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
         if(dbList.isEmpty()){
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else{
             User dbUser = dbList.get(0);
             if(!passwordEncoder.matches(user.getPassword(),dbUser.getPassword())){
@@ -56,6 +56,25 @@ public class UserController {
                 return new ResponseEntity<User>(dbUser, HttpStatus.OK);
             }
         }
+    }
+
+    @GetMapping("/passwordVerification/{id}")
+    public ResponseEntity<String> passwordVerification(@RequestParam String password, @PathVariable Integer id){
+        User user = userService.getUserByID(id);
+        if(!passwordEncoder.matches(password,user.getPassword())) {
+            return new ResponseEntity<String>("Incorrect password.", HttpStatus.CONFLICT);
+        }else{
+            return new ResponseEntity<String>(HttpStatus.OK);
+        }
+    }
+
+    @PatchMapping("/updatePassword/{id}/{newpassword}")
+    public ResponseEntity<String> updatePassword(@PathVariable String newpassword, @PathVariable Integer id){
+        System.out.println(newpassword);
+        User user = userService.getUserByID(id);
+        user.setPassword(newpassword);
+        userService.addUser(user);
+        return new ResponseEntity<String>("Password changed.", HttpStatus.OK);
     }
 
     @GetMapping("/getAllUsers")
@@ -79,7 +98,7 @@ public class UserController {
             List<User> users = userService.getUserByEmail(email);
             return new ResponseEntity<List<User>>(users, HttpStatus.OK);
         } catch(NoSuchElementException e){
-            return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
