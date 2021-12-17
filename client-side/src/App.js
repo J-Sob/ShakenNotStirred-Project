@@ -4,6 +4,7 @@ import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import LogOut from './components/LogOut';
+import UserProfile from './components/UserProfile';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/login" element={<LogIn/>} />
           <Route exact path="/signup" element={<SignUp/>} />
           <Route exact path="/logout" element={<LogOut/>} />
+          <Route exact path="/profile" element={<UserProfile/>} />
         </Routes>
       </Router>
     </div>
