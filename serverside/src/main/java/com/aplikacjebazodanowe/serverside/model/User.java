@@ -1,5 +1,7 @@
 package com.aplikacjebazodanowe.serverside.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +13,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NonNull
     private String email;
+    @NonNull
     private String name;
+    @NonNull
     private String password;
     private String type;
 
