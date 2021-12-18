@@ -1,6 +1,5 @@
 package com.aplikacjebazodanowe.serverside.model;
 
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
@@ -16,6 +15,7 @@ public class Cocktail {
     private String ingredients;
     private String method;
     private String description;
+    private String glass;
 
     public Cocktail() {
     }
@@ -74,5 +74,22 @@ public class Cocktail {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGlass() {
+        return glass;
+    }
+
+    public void setGlass(String glass) {
+        this.glass = glass;
+    }
+
+    @Transient
+    public String getImagePath(){
+        if(this.id == null || this.image == null){
+            return null;
+        }else{
+            return "images/cocktailImages/" + this.image;
+        }
     }
 }

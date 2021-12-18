@@ -3,7 +3,7 @@ import TopAppBar from './TopAppBar';
 import {useEffect, useState} from 'react'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {Grid, Paper, Button, Container} from '@mui/material';
+import {Grid, Paper} from '@mui/material';
 import ChangePassworDialog from './ChangePasswordDialog';
 
 function UserProfile() {
