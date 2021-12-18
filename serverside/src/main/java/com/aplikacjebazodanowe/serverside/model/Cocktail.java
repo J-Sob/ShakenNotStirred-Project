@@ -16,6 +16,7 @@ public class Cocktail {
     private String ingredients;
     private String method;
     private String description;
+    private String glass;
 
     public Cocktail() {
     }
@@ -74,5 +75,13 @@ public class Cocktail {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGlass() {
+        return glass;
+    }
+
+    public void setGlass(String glass) {
+        this.glass = glass;
     }
 }

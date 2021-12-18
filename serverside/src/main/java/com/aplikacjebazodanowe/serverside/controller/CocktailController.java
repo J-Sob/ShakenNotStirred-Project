@@ -24,10 +24,21 @@ public class CocktailController {
     private CocktailService cocktailService;
 
     @PostMapping("/addCocktail")
-    public ResponseEntity<String> addCocktail(@RequestBody Cocktail cocktail, @RequestParam("image")MultipartFile multipartFile){
+    public ResponseEntity<?> addCocktail(@RequestBody Cocktail cocktail){
+        try{
+            cocktailService.addCocktail(cocktail);
+            return new ResponseEntity<>(cocktail.getId(), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/addCocktailImage/{id}")
+    public ResponseEntity<String> addCocktailImage(@PathVariable Integer id, @RequestParam("image")MultipartFile multipartFile){
         String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        Cocktail cocktail = cocktailService.getCocktailById(id);
         cocktail.setImage(filename);
-        String imagesDirectory = "cocktailImages/" + cocktail.getId();
+        String imagesDirectory = "images/cocktailImages";
         try {
             FileUploadUtil.saveFile(imagesDirectory,filename,multipartFile);
             cocktailService.addCocktail(cocktail);
