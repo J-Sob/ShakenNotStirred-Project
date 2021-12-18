@@ -5,14 +5,20 @@ import com.aplikacjebazodanowe.serverside.service.CocktailService;
 import com.aplikacjebazodanowe.serverside.utility.FileUploadUtil;
 import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -49,17 +55,43 @@ public class CocktailController {
     }
 
     @GetMapping("/getAllCocktails")
-    public ResponseEntity<List<Cocktail>> getAllCocktails(){
-        return new ResponseEntity<>(cocktailService.getAllCocktails(), HttpStatus.OK);
+    public ResponseEntity<?> getAllCocktails(){
+        try {
+            return new ResponseEntity<>(cocktailService.getAllCocktails(), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/getCocktail/{id}")
-    public ResponseEntity<Cocktail> getCocktailById(@PathVariable Integer id){
+    public ResponseEntity<?> getCocktailById(@PathVariable Integer id){
         try{
             Cocktail cocktail = cocktailService.getCocktailById(id);
-            return new ResponseEntity<Cocktail>(cocktail, HttpStatus.OK);
+            return new ResponseEntity<>(cocktail, HttpStatus.OK);
         }catch(NoSuchElementException e){
-            return new ResponseEntity<Cocktail>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("404: Cocktail not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/getImage/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody ResponseEntity<?> getImage(@PathVariable Integer id) throws IOException {
+        try {
+            Cocktail cocktail = cocktailService.getCocktailById(id);
+            String imagePath = cocktail.getImagePath();
+            ByteArrayResource byteArrayResource = new ByteArrayResource(Files.readAllBytes(Paths.get(imagePath)));
+            return new ResponseEntity<>(byteArrayResource, HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>("Cocktail image not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getImagePath/{id}")
+    public ResponseEntity<?> getImagePath(@PathVariable Integer id){
+        try{
+            Cocktail cocktail = cocktailService.getCocktailById(id);
+            return new ResponseEntity<>(cocktail.getImagePath(), HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>("Cocktail not found", HttpStatus.NOT_FOUND);
         }
     }
 

@@ -15,7 +15,7 @@ public class CocktailServiceImplementation implements  CocktailService {
 
     @Override
     public Cocktail getCocktailById(Integer id) {
-        return cocktailRepository.getById(id);
+        return cocktailRepository.findById(id).get();
     }
 
     @Override
