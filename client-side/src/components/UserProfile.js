@@ -12,14 +12,15 @@ function UserProfile() {
         padding:"50px 20px",
         width: 500,
         margin: "20px 20px auto",
-        background: '#85F5E9'
+        //background: '#85F5E9'
     }
 
     const[isUserLogged, setUserLogged] = useState(false)
     const[user, setUser] = useState()
 
     useEffect(() => {
-        const loggedUser = JSON.parse(localStorage.getItem('user'));
+        const loggedUser = JSON.parse(sessionStorage.getItem('user'));
+        console.log(loggedUser)
         if(loggedUser){
             setUserLogged(true)
             setUser(loggedUser)

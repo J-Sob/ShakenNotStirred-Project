@@ -39,7 +39,7 @@ const TopAppBar = () => {
   };
 
   useEffect(() => {
-    const loggedUser = JSON.parse(localStorage.getItem('user'));
+    const loggedUser = JSON.parse(sessionStorage.getItem('user'));
     if(loggedUser){
       setSettings([{label: 'Profile', route: '/profile'},
                   {label: 'Log out', route: '/logout'}])

@@ -29,7 +29,7 @@ const LogIn = () => {
         setErrorFlag(false)
         axios.post("http://localhost:8080/user/loginAuth", loggingCrudentials)
         .then(response => {
-            localStorage.setItem('user', JSON.stringify(response.data))
+            sessionStorage.setItem('user', JSON.stringify(response.data))
             setUserLogged(true)
         })
         .catch(error =>{

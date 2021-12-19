@@ -2,8 +2,18 @@ import {useEffect, useState, React} from 'react'
 import TopAppBar from './TopAppBar';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
+import {Grid, Paper, Typography} from '@mui/material';
 
 const Cocktail = () => {
+    const paperStyle = {
+        padding:"50px 20px",
+        width: 600,
+        margin: "20px auto",
+    }
+    const imageStyle = {
+        display: 'block',
+        margin: 'auto'
+    }
     const {id} = useParams()
     const[cocktail, setCocktail] = useState();
     const[errorMessage, setErrorMessage] = useState('')
@@ -36,12 +46,26 @@ const Cocktail = () => {
             <TopAppBar/>
             {errorFlag ? <h1>{errorMessage}</h1> :
             <div>
-              <h1>Cocktail: {cocktail.name}</h1><br/>
-              <img src={`data:image/jpg;base64,${encodedImage}`} alt="cocktail"/>
+            <Paper elevation={3} style={paperStyle}>
+                <Grid container rowSpaceing={10} direction="column" >
+                    <Typography item variant="h4" ><b>{cocktail.name}</b></Typography><br/>
+                    <img src={`data:image/jpg;base64,${encodedImage}`} alt="cocktail" width={400} style={imageStyle}/><br/>
+                    <Paper item elevation = {6} >
+                        <Typography variant="h5" align='left' style={{whiteSpace: 'pre-line'}}><b>Ingredients:</b>{'\n' + cocktail.ingredients}</Typography>
+                    </Paper><br/>
+                    <Paper item elevation = {6}>
+                        <Typography variant="h5" align='left'><b>Method:</b> {cocktail.method}</Typography>
+                    </Paper><br/>
+                    <Paper item elevation = {6}>
+                        <Typography variant="h5" align='left'><b>Glass:</b> {cocktail.glass}</Typography>
+                    </Paper><br/>
+                    <Paper item elevation = {6}>
+                        <Typography variant="h5" align='left' style={{whiteSpace: 'pre-line'}}><b>How to prepare:</b> {'\n' + cocktail.description}</Typography>
+                    </Paper><br/>
+                </Grid>
+            </Paper>
             </div>
             }
-          
-
         </div>
     );
 }

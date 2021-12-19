@@ -7,6 +7,7 @@ import LogOut from './components/LogOut';
 import AddCocktailForm from './components/AddCocktailForm'
 import UserProfile from './components/UserProfile';
 import Cocktail from './components/Cocktail';
+import CocktailPage from './components/CocktailPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/logout" element={<LogOut/>} />
           <Route exact path="/addCocktail" element={<AddCocktailForm/>}/>
           <Route exact path="/profile" element={<UserProfile/>} />
+          <Route exact path="/cocktails" element={<CocktailPage/>} />
           <Route exact path={"/cocktail/:id"}  element={<Cocktail/>} />
         </Routes>
       </Router>
