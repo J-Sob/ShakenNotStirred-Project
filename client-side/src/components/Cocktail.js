@@ -18,7 +18,7 @@ const Cocktail = () => {
     const[cocktail, setCocktail] = useState();
     const[errorMessage, setErrorMessage] = useState('')
     const[errorFlag, setErrorFlag] = useState(true)
-    const[encodedImage, setImagePath] = useState(null)
+    const[encodedImage, setEncodedImage] = useState(null)
 
     useEffect(() => {
         axios.get('http://localhost:8080/cocktail/getCocktail/' + id)
@@ -28,7 +28,7 @@ const Cocktail = () => {
             axios.get('http://localhost:8080/cocktail/getImage/' + id, {responseType: 'arraybuffer'})
             .then(res => {
                 const data = Buffer.from(res.data, 'binary').toString('base64')
-                setImagePath(data)
+                setEncodedImage(data)
             })
             .catch(err => {
                 setErrorMessage(err.response.data)

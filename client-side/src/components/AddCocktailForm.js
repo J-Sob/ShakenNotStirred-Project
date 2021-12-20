@@ -32,6 +32,7 @@ const AddCocktailForm = () => {
             method,
             ingredients,
             description,
+            glass,
             image: ''
         }
         axios.post("http://localhost:8080/cocktail/addCocktail", cocktail)

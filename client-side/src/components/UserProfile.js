@@ -20,7 +20,6 @@ function UserProfile() {
 
     useEffect(() => {
         const loggedUser = JSON.parse(sessionStorage.getItem('user'));
-        console.log(loggedUser)
         if(loggedUser){
             setUserLogged(true)
             setUser(loggedUser)
@@ -35,7 +34,7 @@ function UserProfile() {
             {isUserLogged ? 
             <Grid container spacing={2} sx={{m: 'auto'}} alignItems="stretch" justifyContent="center">
                 <Paper elevation={3} style={paperStyle}>
-                    <Grid container rowSpaceing={10} direction="column" >
+                    <Grid container direction="column" >
                         <Typography item variant="h4">User profile.</Typography><br/>
                         <Paper item elevation = {6} >
                             <Typography variant="h5" align='left'>Name: {user.name}</Typography>

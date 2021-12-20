@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -82,6 +83,22 @@ public class CocktailController {
             return new ResponseEntity<>(byteArrayResource, HttpStatus.OK);
         }catch(NoSuchElementException e){
             return new ResponseEntity<>("Cocktail image not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/getAllImages", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody ResponseEntity<?> getAllImages() throws IOException{
+        try{
+            List<Cocktail> cocktails = cocktailService.getAllCocktails();
+            List<ByteArrayResource> images = new ArrayList<ByteArrayResource>();
+            for(Cocktail cocktail : cocktails) {
+                String imagePath = cocktail.getImagePath();
+                ByteArrayResource byteArrayResource = new ByteArrayResource(Files.readAllBytes(Paths.get(imagePath)));
+                images.add(byteArrayResource);
+            }
+            return new ResponseEntity<>(images, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Something went wrong", HttpStatus.CONFLICT);
         }
     }
 
