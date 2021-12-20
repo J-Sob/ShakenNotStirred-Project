@@ -3,6 +3,7 @@ import TopAppBar from './TopAppBar';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import {Grid, Paper, Typography} from '@mui/material';
+import Comments from './Comments';
 
 const Cocktail = () => {
     const paperStyle = {
@@ -64,6 +65,7 @@ const Cocktail = () => {
                     </Paper><br/>
                 </Grid>
             </Paper>
+            <Comments/>
             </div>
             }
         </div>

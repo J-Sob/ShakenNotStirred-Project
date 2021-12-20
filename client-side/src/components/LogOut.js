@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom'
 const LogOut = () => {
 
     useEffect(() => {
-        localStorage.clear()
+        sessionStorage.clear()
     }, [])
 
     return(
