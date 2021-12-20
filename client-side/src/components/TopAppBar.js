@@ -16,8 +16,8 @@ import logo from './img/logo.png'
 
 const TopAppBar = () => {
   const pages = [{label: "Homepage", route: "/homepage"},
-                {label: "Cocktails", route: "/"},
-                {label: "Categories", route: "/"}];
+                {label: "Cocktails", route: "/cocktails"},
+                {label: "Categories", route: "/categories"}];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
