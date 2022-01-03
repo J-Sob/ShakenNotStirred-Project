@@ -43,6 +43,10 @@ public class UserServiceImplementation implements UserService{
         return userRepository.getUserByEmail(email);
     }
 
+    @Override
+    public void deleteAll() {
+        userRepository.deleteAll();
+    }
 
 
 }

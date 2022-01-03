@@ -10,4 +10,5 @@ public interface CocktailService {
     public List<Cocktail> getCocktailsByAlcohol(String alcohol);
     public Cocktail addCocktail(Cocktail cocktail);
     public void deleteCocktail(Integer id);
+    public void deleteAllCocktails();
 }

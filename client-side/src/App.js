@@ -8,6 +8,7 @@ import AddCocktailForm from './components/AddCocktailForm'
 import UserProfile from './components/UserProfile';
 import Cocktail from './components/Cocktail';
 import CocktailPage from './components/CocktailPage';
+import AdminPanel from './components/AdminPanel';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/profile" element={<UserProfile/>} />
           <Route exact path="/cocktails" element={<CocktailPage/>} />
           <Route exact path={"/cocktail/:id"}  element={<Cocktail/>} />
+          <Route exact path={"/admin"}  element={<AdminPanel/>} />
         </Routes>
       </Router>
     </div>

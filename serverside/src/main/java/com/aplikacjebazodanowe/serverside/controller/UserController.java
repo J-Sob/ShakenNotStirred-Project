@@ -103,8 +103,26 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable Integer id){
-        userService.deleteUser(id);
-        return "User " + id + " has been deleted";
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id){
+        try{
+            userService.deleteUser(id);
+            return new ResponseEntity<>("User deleted.", HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>("User not fount.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<?> deleteAll(){
+        try{
+            List<User> users = userService.getUserByEmail("admin@admin.com");
+            User admin = users.get(0);
+            admin.setPassword("admin");
+            userService.deleteAll();
+            userService.addUser(admin);
+            return new ResponseEntity<>("User table dropped.", HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Something went wrong.", HttpStatus.BAD_REQUEST);
+        }
     }
 }
