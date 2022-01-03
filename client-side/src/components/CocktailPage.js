@@ -51,7 +51,7 @@ const CocktailPage = () => {
     return(
         <div className="CocktailPage">
             <TopAppBar/>
-            <Typography item variant="h3" ><b>All recipes.</b></Typography><br/>
+            <Typography item variant="h3" ><b>Cocktail recipes.</b></Typography><br/>
                 <Grid container spacing={2} justifyContent='center' alignItems='stretch'>
                 {cocktailImages.length !== 0
                 ?   cocktailInfo.map((cocktail) => (

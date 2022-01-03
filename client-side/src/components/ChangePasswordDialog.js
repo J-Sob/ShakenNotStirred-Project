@@ -58,7 +58,7 @@ export default function FormDialog() {
   }
 
   useEffect(() => {
-    const loggedUser = JSON.parse(localStorage.getItem('user'));
+    const loggedUser = JSON.parse(sessionStorage.getItem('user'));
     if(loggedUser){
         setUser(loggedUser)
     }
