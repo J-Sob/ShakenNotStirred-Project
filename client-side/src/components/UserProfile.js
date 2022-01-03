@@ -45,11 +45,6 @@ function UserProfile() {
                     </Grid>
                     <ChangePassworDialog />
                 </Paper>
-                <Paper elevation={3} style={paperStyle}>
-                    <Box>
-                        <Typography variant="h4">Favorite recipes.</Typography>
-                    </Box>
-                </Paper>
             </Grid> : 
             <Typography>Log in first to see you profile.</Typography>}
         </div>

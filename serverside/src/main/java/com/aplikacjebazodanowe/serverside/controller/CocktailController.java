@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -121,10 +122,26 @@ public class CocktailController {
     @DeleteMapping("/deleteCocktail/{id}")
     public ResponseEntity<String> deleteCocktail(@PathVariable Integer id){
         try{
-            cocktailService.deleteCocktail(id);
-            return new ResponseEntity<>("Cocktail deleted", HttpStatus.OK);
+            Cocktail cocktail = cocktailService.getCocktailById(id);
+            File img = new File(cocktail.getImagePath());
+            if(img.delete()){
+                cocktailService.deleteCocktail(id);
+                return new ResponseEntity<>("Cocktail deleted", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+            }
         }catch(NoSuchElementException e){
             return new ResponseEntity<>("Cocktail not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/deleteAllCocktails")
+    public ResponseEntity<?> deleteAll(){
+        try{
+            cocktailService.deleteAllCocktails();
+            return new ResponseEntity<>("Cocktail table dropped", HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         }
     }
 }

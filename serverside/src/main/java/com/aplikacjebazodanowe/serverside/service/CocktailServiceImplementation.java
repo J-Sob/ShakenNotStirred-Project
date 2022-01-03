@@ -37,4 +37,9 @@ public class CocktailServiceImplementation implements  CocktailService {
     public void deleteCocktail(Integer id) {
         cocktailRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteAllCocktails() {
+        cocktailRepository.deleteAll();
+    }
 }

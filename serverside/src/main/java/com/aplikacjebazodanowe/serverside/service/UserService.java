@@ -10,4 +10,5 @@ public interface UserService {
     public void deleteUser(Integer id);
     public User getUserByID(Integer id);
     public List<User> getUserByEmail(String email);
+    public void deleteAll();
 }
